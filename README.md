@@ -98,21 +98,74 @@ python run_pipeline.py raw_captures/ --steps detect metadata
 
 -----
 
-## ⚙️ 3. Command Line Arguments
+## 📝 3. Configuration: Changing Models
 
-You can override the default output paths for the primary files and folders.
+You can easily swap the detection and classification models used by PytorchWildlife by editing the respective Python files.
+
+### A. Detection Model (`detect_and_log.py`)
+
+Edit the **`detect_and_log.py`** file around line 15 to change the model class and version:
+
+```python
+# detect_and_log.py
+
+# ... imports ...
+
+def detect_and_create_csv(input_dir, output_csv_path, field_order_str):
+    # ...
+    print(f"Initializing MegaDetector V6 on {DEVICE}...")
+    detection_model = pw_detection.MegaDetectorV6(
+        device=DEVICE, 
+        pretrained=True, 
+        version="MDV6-yolov10-e" # <--- EDIT THIS VERSION
+    )
+    # ...
+```
+
+| Detection Model | Class | Available Versions (`version="..."`) |
+| :--- | :--- | :--- |
+| **MegaDetectorV5** | `pw_detection.MegaDetectorV5` | `"a"`, `"b"` |
+| **MegaDetectorV6** | `pw_detection.MegaDetectorV6` | `"MDV6-yolov9-c"`, `"MDV6-yolov9-e"`, `"MDV6-yolov10-c"`, `"MDV6-yolov10-e"` |
+
+### B. Classification Model (`classify_data.py`)
+
+Edit the **`classify_data.py`** file around line 24 to change the model class:
+
+```python
+# classify_data.py
+
+# ... imports ...
+
+def update_csv_data(input_dir, input_csv_path, field_order_str):
+    # ...
+    print(f"Initializing AI4G Serengeti Classifier on {DEVICE}...")
+    classification_model = pw_classification.AI4GSnapshotSerengeti(device=DEVICE) # <--- EDIT THIS CLASS
+    # ...
+```
+
+| Classification Model | Class | Description |
+| :--- | :--- | :--- |
+| AI4G Opossum | `pw_classification.AI4GOpossum` | Opossum species classifier. |
+| AI4G Amazon | `pw_classification.AI4GAmazonRainforest` | Amazon rainforest species classifier. |
+| **AI4G Serengeti** | `pw_classification.AI4GSnapshotSerengeti` | **Currently used.** Snapshot Serengeti species classifier. |
+| **Custom Model** | `pw_classification.CustomClassifier` | Use this class to load a custom Pytorch model from a local path. |
+
+-----
+
+## 4\. Overriding Default Paths
+
+You can override the default output paths for the primary files and folders using optional arguments in `run_pipeline.py`:
 
 | Argument | Type | Default Value | Description |
 | :--- | :--- | :--- | :--- |
 | **`input_dir`** | *Positional* | N/A | **Required.** Path to the folder containing your input images (e.g., `raw_captures/`). |
-| **`--steps`** | *Optional* | All steps | List of steps to execute (see table above). |
 | `--csv` | *Optional* | `data/master_detection_log.csv` | Output path for the final **CSV detection log**. |
 | `--json` | *Optional* | `data/research_data.json` | Output path for the final standardized **JSON data export**. |
 | `--sorted` | *Optional* | `output/sorted_images` | Parent directory for the `empty/` and `non-empty/` subfolders. |
-| `--annotated` | *Optional* | `output/annotated_images` | Directory to save images with bounding boxes and labels. |
+| `--annotated` | *Optional* | `output/annotated_images` | Directory to save images with bounding box and species labels. |
 | `--crops` | *Optional* | `output/cropped_crops_by_species` | Directory to save cropped detections, organized by species. |
 
-**Example (Using custom CSV and JSON paths):**
+**Example (Using custom paths):**
 
 ```bash
 python run_pipeline.py raw_captures/ --csv logs/final_run_dec.csv --json logs/final_run_dec.json

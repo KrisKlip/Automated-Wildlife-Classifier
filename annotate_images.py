@@ -88,7 +88,7 @@ def process_visual_outputs(input_dir, input_csv_path, annotated_output_dir, crop
                 if species and clf_conf > CLF_CONF_THRES:
                     folder_name = species
                 else:
-                    folder_name = 'other' 
+                    folder_name = 'unknown' 
 
                 # Sanitize folder name
                 safe_folder_name = re.sub(r'\W+', '_', folder_name).strip('_').lower()

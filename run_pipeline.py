@@ -5,11 +5,11 @@ import os
 import sys
 
 # Define default paths
-DEFAULT_CSV = "data/master_detection_log.csv"
+DEFAULT_CSV = "data/main_detection_log.csv"
 DEFAULT_SORTED = "output/sorted_images"
 DEFAULT_ANNOTATED = "output/annotated_images"
 DEFAULT_CROPS = "output/cropped_crops_by_species"
-DEFAULT_JSON = "data/research_data.json"
+DEFAULT_JSON = "data/analyzed_data.json"
 
 # MASTER LIST OF ALL CSV FIELDS IN DESIRED ORDER
 MASTER_FIELD_ORDER = [
