@@ -4,6 +4,10 @@ import csv
 import argparse
 import shutil
 
+# --- CONFIGURATION ---
+MD_CONF_THRES = 0.1 # Confidence threshold for detection
+# ---------------------
+
 def load_csv_data(csv_path):
     """Loads all records from the CSV file."""
     with open(csv_path, 'r', newline='') as csvfile:
@@ -22,7 +26,7 @@ def sort_images_by_detection(input_dir, input_csv_path, output_dir):
     non_empty_files = set()
     for record in all_records:
         # MD_Class_ID 0, 1, or 2 indicates a detection (animal, person, vehicle)
-        if int(record['MD_Class_ID']) != -1 and float(record['MD_Confidence']) > 0.1:
+        if int(record['MD_Class_ID']) != -1 and float(record['MD_Confidence']) > MD_CONF_THRES:
              non_empty_files.add(record['Image_Filename'])
     
     # Identify all processed files to find true 'empty' files

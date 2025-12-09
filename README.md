@@ -98,7 +98,49 @@ python run_pipeline.py raw_captures/ --steps detect metadata
 
 -----
 
-## 📝 3. Configuration: Changing Models
+## 🔬 3. Configuration: Confidence Thresholds
+
+You can adjust the confidence thresholds for detection and classification by editing the two following files. Adjusting these values allows you to trade-off between **precision** (higher threshold) and **recall** (lower threshold).
+
+### A. MegaDetector (MD) Confidence Threshold (`sort_images.py`)
+
+This threshold controls which images are sorted into the **`non-empty`** folder.
+
+  * **File:** `sort_images.py`
+  * **Variable:** `MD_CONF_THRES`
+  * **Effect:** Only detections with a confidence **higher** than this value will mark an image as "non-empty" for sorting purposes.
+
+<!-- end list -->
+
+```python
+# sort_images.py
+
+# --- CONFIGURATION ---
+MD_CONF_THRES = 0.1 # Confidence threshold for detection
+# ---------------------
+```
+
+### B. Classification (CLF) Confidence Threshold (`annotate_images.py`)
+
+This threshold controls the labeling and cropping of classification results during visualization.
+
+  * **File:** `annotate_images.py`
+  * **Variable:** `CLF_CONF_THRES`
+  * **Effect:** Predictions with a confidence **lower** than this value will typically be labeled as **'Unknown'** on the annotated images. It ensures only high-confidence species predictions are displayed.
+
+<!-- end list -->
+
+```python
+# annotate_images.py
+
+# --- CONFIGURATION ---
+CLF_CONF_THRES = 0.8 # Confidence threshold for species prediction
+# ---------------------
+```
+
+-----
+
+## 🛠️ 4. Configuration: Changing Models
 
 You can easily swap the detection and classification models used by PytorchWildlife by editing the respective Python files.
 
@@ -152,7 +194,7 @@ def update_csv_data(input_dir, input_csv_path, field_order_str):
 
 -----
 
-## 4\. Overriding Default Paths
+## 5\. Overriding Default Paths
 
 You can override the default output paths for the primary files and folders using optional arguments in `run_pipeline.py`:
 
