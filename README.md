@@ -53,7 +53,7 @@ You'll need Pytorch, PytorchWildlife, and several utility libraries. Ensure your
 
 ```bash
 pip install torch
-pip install PytorchWildlife supervision pandas tqdm Pillow requests
+pip install torch PytorchWildlife supervision pandas tqdm Pillow requests numpy lightning omegaconf
 ```
 
 *(Note: If you have GPU issues, you may need to install the specific Pytorch version that matches your CUDA toolkit separately.)*

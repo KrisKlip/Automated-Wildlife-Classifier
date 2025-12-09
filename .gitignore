@@ -1,0 +1,38 @@
+# Python Virtual Environments
+# Ignore the environment folder created by `python -m venv venv`
+venv/
+.venv/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+dist/
+*.egg-info/
+
+# Unit test / coverage reports
+.pytest_cache/
+htmlcov/
+.coverage
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# --- Pipeline-Specific Output Files ---
+# Ignore the master detection log and the final JSON data
+# (If these are regenerated every run, you might not want to commit them)
+/data/master_detection_log.csv
+/data/research_data.json
+
+# Ignore the entire output directory containing sorted/annotated/cropped images
+/output/
+
+# Logs and temporary files
+*.log
